@@ -33,17 +33,18 @@ router.post('/', async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
+    console.log("_id: "+req.params.id+" title: "+req.body.title);
     try {
-        console.log("_id: "+id+" title: "+req.body.title);
         
-        const updatedQuote = await quote.updateOne(
+        
+        const updatedQuote = await Quote.updateOne(
             { _id: req.params.id },
-            {  title: req.body.title  }
-        );
+            { $set:{ title: req.body.title}}
+        )
 
         res.json(updatedQuote);
     } catch (error) {
-        res.json({ message: error });
+        res.json({ message: req.body.tit });
     }
 });
 
