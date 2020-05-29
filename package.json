@@ -1,0 +1,24 @@
+{
+  "name": "com.simitdoshi.motivational",
+  "version": "1.0.0",
+  "description": "API for Motivational Quoates",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/doshisimit/motivational-quotes.git"
+  },
+  "author": "Simit Doshi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/doshisimit/motivational-quotes/issues"
+  },
+  "homepage": "https://github.com/doshisimit/motivational-quotes#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.16"
+  }
+}
