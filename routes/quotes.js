@@ -34,10 +34,13 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
     try {
+        console.log("_id: "+id+" title: "+req.body.title);
+        
         const updatedQuote = await quote.updateOne(
             { _id: req.params.id },
             {  title: req.body.title  }
         );
+
         res.json(updatedQuote);
     } catch (error) {
         res.json({ message: error });
