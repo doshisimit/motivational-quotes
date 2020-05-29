@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv/config');
+var port = process.env.PORT || 3000;
 
 const quotesRoute = require('./routes/quotes');
 app.use(bodyParser.json());
@@ -24,4 +25,4 @@ db.once('open', function () {
     console.log('Connected to DB');
 });
 
-app.listen(3000);
+app.listen(port);
