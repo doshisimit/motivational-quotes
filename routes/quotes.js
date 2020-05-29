@@ -36,7 +36,7 @@ router.patch('/:id', async (req, res) => {
     try {
         const updatedQuote = await quote.updateOne(
             { _id: req.params.id },
-            {  title: req.params.title  }
+            {  title: req.body.title  }
         );
         res.json(updatedQuote);
     } catch (error) {
