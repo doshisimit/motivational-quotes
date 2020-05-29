@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
     try {
-        const updatedQuote = await Quote.updateOne(
+        const updatedQuote = await quote.updateOne(
             { _id: req.params.id },
             {  title: req.params.title  }
         );
