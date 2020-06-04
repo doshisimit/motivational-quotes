@@ -8,7 +8,7 @@ const Quote = require('../models/Quote');
 // All Posts
 router.get('/', async (req, res) => {
     try {
-        const quotes = await Quote.find();
+        const quotes = await Quote.find({ 'isApproved': true });
         res.json(quotes);
     } catch (error) {
         res.json({ message: error });
@@ -33,13 +33,13 @@ router.post('/', async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-    console.log("_id: "+req.params.id+" title: "+req.body.title);
+    console.log("Updatting _id: "+req.params.id+" to isApproved: "+req.body.isApproved);
     try {
         
         
         const updatedQuote = await Quote.updateOne(
             { _id: req.params.id },
-            { $set:{ title: req.body.title}}
+            { $set:{ isApproved: req.body.isApproved}}
         )
 
         res.json(updatedQuote);
