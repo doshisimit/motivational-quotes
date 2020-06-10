@@ -4,15 +4,46 @@ const router = express.Router();
 
 const Quote = require('../models/Quote');
 
+function paginatedResults(model){
+    return async (req,res,next)=>{
+        const page= parseInt(req.body.page);
+        const limit = parseInt(req.body.limit);
 
-// All Posts
-router.get('/', async (req, res) => {
-    try {
-        const quotes = await Quote.find({ 'isApproved': true });
-        res.json(quotes);
-    } catch (error) {
-        res.json({ message: error });
+        const startIndex= (page-1)*limit;
+        const endIndex= page * limit;
+
+        const result={}
+
+        if(endIndex < await model.countDocuments().exec()){
+            result.next={
+                page: page+1,
+                limit: limit
+            }
+        }
+        if(startIndex > 0){
+            result.previous={
+                page: page-1,
+                limit: limit
+            }
+        }
+        try{
+            result.results= await model.find({ 'isApproved': true }).limit(limit).skip(startIndex).exec();
+            res.paginatedResults= result;
+            next();
+        }catch (e){
+            res.status(500).json({message: e.message});
+        }
+        
+        
     }
+}
+// All Posts
+router.get('/',paginatedResults(Quote), (req, res) => {
+    
+        // const quotes = await Quote.find({ 'isApproved': true });
+        // res.json(quotes);
+     res.json(res.paginatedResults)
+    
 });
 
 //Submit Post
