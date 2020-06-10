@@ -4,6 +4,7 @@ const router = express.Router();
 
 const Quote = require('../models/Quote');
 
+//Add pagination
 function paginatedResults(model){
     return async (req,res,next)=>{
         const page= parseInt(req.body.page);
@@ -37,13 +38,19 @@ function paginatedResults(model){
         
     }
 }
+// Save server from crashing
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+router.get('/search/:search', async (req, res) => {
+    const regex = new RegExp(escapeRegex(req.params.search), 'gi');
+    const result = await Quote.find({ $or: [{title: regex },{hashTags: regex}] }).and({ 'isApproved': true }).exec();
+    res.json(result);   
+});
+
 // All Posts
 router.get('/',paginatedResults(Quote), (req, res) => {
-    
-        // const quotes = await Quote.find({ 'isApproved': true });
-        // res.json(quotes);
-     res.json(res.paginatedResults)
-    
+     res.json(res.paginatedResults)   
 });
 
 //Submit Post
