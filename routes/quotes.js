@@ -13,22 +13,23 @@ function paginatedResults(model){
         const startIndex= (page-1)*limit;
         const endIndex= page * limit;
 
-        const result={}
+        // const result={}
 
-        if(endIndex < await model.countDocuments().exec()){
-            result.next={
-                page: page+1,
-                limit: limit
-            }
-        }
-        if(startIndex > 0){
-            result.previous={
-                page: page-1,
-                limit: limit
-            }
-        }
+        // if(endIndex < await model.countDocuments().exec()){
+        //     result.next={
+        //         page: page+1,
+        //         limit: limit
+        //     }
+        // }
+        // if(startIndex > 0){
+        //     result.previous={
+        //         page: page-1,
+        //         limit: limit
+        //     }
+        // }
         try{
-            result.results= await model.find({ 'isApproved': true }).limit(limit).skip(startIndex).exec();
+            //result.result= await model.find({ 'isApproved': true }).limit(limit).skip(startIndex).exec();
+          const result= await model.find({ 'isApproved': true }).limit(limit).skip(startIndex).exec();
             res.paginatedResults= result;
             next();
         }catch (e){
@@ -42,6 +43,7 @@ function paginatedResults(model){
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+//search Quotes
 router.get('/search/:search', async (req, res) => {
     const regex = new RegExp(escapeRegex(req.params.search), 'gi');
     const result = await Quote.find({ $or: [{title: regex },{hashTags: regex}] }).and({ 'isApproved': true }).exec();
