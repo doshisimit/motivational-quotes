@@ -7,8 +7,8 @@ const Quote = require('../models/Quote');
 //Add pagination
 function paginatedResults(model){
     return async (req,res,next)=>{
-        const page= parseInt(req.body.page);
-        const limit = parseInt(req.body.limit);
+        const page= parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
 
         const startIndex= (page-1)*limit;
         const endIndex= page * limit;
