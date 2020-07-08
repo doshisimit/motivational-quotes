@@ -45,8 +45,13 @@ function escapeRegex(text) {
 };
 //search Quotes
 router.get('/search/:search', async (req, res) => {
+    const page= parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+
+        const startIndex= (page-1)*limit;
+        const endIndex= page * limit;
     const regex = new RegExp(escapeRegex(req.params.search), 'gi');
-    const result = await Quote.find({ $or: [{title: regex },{hashTags: regex}] }).and({ 'isApproved': true }).exec();
+    const result = await Quote.find({ $or: [{title: regex },{hashTags: regex}] }).and({ 'isApproved': true }).limit(limit).skip(startIndex).exec();
     res.json(result);   
 });
 
